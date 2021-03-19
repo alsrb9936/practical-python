@@ -12,8 +12,13 @@ total_paid = 0.0
 month = 0;
 
 while principal > 0:
-    principal = principal * (1+rate/12) - payment 
-    total_paid = total_paid + payment
+    if principal < payment:
+        total_paid += principal
+        principal = 0
+        
+    else:
+        principal = principal * (1+rate/12) - payment 
+        total_paid = total_paid + payment
     
     if month >= extra_payment_start_month and month <= extra_payment_end_month:
         principal -= extra_payment
@@ -21,5 +26,5 @@ while principal > 0:
     
     month += 1;
     
-    print(month, total_paid, principal - total_paid)
+    print(month, total_paid, principal)
     
