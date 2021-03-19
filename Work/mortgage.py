@@ -21,5 +21,5 @@ while principal > 0:
     
     month += 1;
     
-print('Total Paid', total_paid)
-print('Total Month', month)
+    print(month, total_paid, principal - total_paid)
+    
