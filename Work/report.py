@@ -4,6 +4,14 @@
 import csv
 import sys
 
+def div_line():
+    for _ in range(4):
+        for _ in range(10):
+            print('-',end='')
+        print(end=' ')
+        
+    print()
+    
 def read_portfolio(filename):
     portfolio = []
     
@@ -28,16 +36,32 @@ def read_prices(filename):
                 prices[row[0]] = float(row[1])
         
         except IndexError:
-            print('더 이상 참조할 값이 없습니다.')
+            pass
             
     return prices
+
+def make_report(portfolio, prices):
+    report = []
+    
+    for line in portfolio:
+        name = line['name']
+        shares = int(line['shares'])
+        past_price = float(line['price'])
+        change = past_price - prices[name]
+        
+        temp = (name, shares, prices[name], change)
+        report.append(temp)
+    
+    return report
 
 portfolio_file = 'Data/portfolio.csv'
 prices_file = 'Data/prices.csv'
 
 portfolio = read_portfolio(portfolio_file)
 prices = read_prices(prices_file)
+report = make_report(portfolio, prices)
 
+headers = ('Name', 'Shares', 'Price', 'Change')
 Gain = 0
 
 for i in portfolio:
@@ -47,5 +71,10 @@ for i in portfolio:
     
     Gain += shares * (now_cost - portfolio_cost)
     
-print('Gain: ', Gain)
+print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
+
+div_line()
+    
+for name, shares, price, change in report:
+    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
     
