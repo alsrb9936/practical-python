@@ -6,20 +6,20 @@ import sys
 
 def portfolio_cost(filename):
     total_cost = 0
-    try:
-        with open(filename) as f:
-            rows = csv.reader(f)
-            hearder = next(rows)
+    with open(filename) as f:
+        rows = csv.reader(f)
+        header = next(rows)
 
-            for row in rows:
-                amount = row[1]
-                cost = row[2]
-                total_cost += int(amount) * float(cost)
-            
-            return total_cost
-        
-    except ValueError:
-        print("Error!")
+        for rowno, row in enumerate(rows):
+            record = dict(zip(header, row))
+            try:
+                nshares = int(record['shares'])
+                price = float(record['price'])
+                total_cost += nshares * price
+            except ValueError:    
+                print(f'Row {rowno}: Bad row: {row}')
+
+        return total_cost
 
 if len(sys.argv) == 2:
     filename = sys.argv[1]

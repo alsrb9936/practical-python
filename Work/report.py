@@ -11,8 +11,8 @@ def read_portfolio(filename):
         headers = next(rows)
         
         for row in rows:
-            temp = {'name': row[0], 'shares': int(row[1]), 'price': float(row[2])}
-            portfolio.append(temp)
+            record = dict(zip(headers, row))
+            portfolio.append(record)
             
     return portfolio
 
@@ -56,9 +56,9 @@ headers = ('Name', 'Shares', 'Price', 'Change')
 Gain = 0
 
 for i in portfolio:
-    portfolio_cost = i['price'] 
-    now_cost = prices[i['name']]
-    shares = i['shares']
+    portfolio_cost = float(i['price'])
+    now_cost = float(prices[i['name']])
+    shares = int(i['shares'])
     
     Gain += shares * (now_cost - portfolio_cost)
     
